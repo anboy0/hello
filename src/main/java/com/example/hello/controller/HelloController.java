@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.sql.DataSource;
+import java.sql.SQLException;
 import java.util.List;
 
 @ApiVersion(5)
@@ -19,6 +21,9 @@ public class HelloController {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private DataSource dataSource;
 
     @GetMapping("/hello")
     @ApiOperation(value = "版本5")
@@ -48,8 +53,17 @@ public class HelloController {
 
     @GetMapping("test")
     @ApiOperation(value = "查询所有User")
-    public void queryUser(){
+    public List<User> queryUser(){
         List<User> userList = userMapper.selectList(null);
         userList.forEach(System.out::println);
+        return userList;
+    }
+
+    @RequestMapping("/index")
+    @ResponseBody
+    public String index() throws SQLException {
+        System.out.println(dataSource.getConnection());
+        System.out.println(dataSource);
+        return "hello spring boot";
     }
 }
