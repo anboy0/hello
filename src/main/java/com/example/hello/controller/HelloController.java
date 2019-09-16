@@ -6,9 +6,9 @@ import com.example.hello.version.ApiVersion;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @ApiVersion(5)
@@ -23,11 +23,26 @@ public class HelloController {
     @GetMapping("/hello")
     @ApiOperation(value = "版本5")
     @ResponseBody
-    public String helloFive(){
-//        String uri = request.getURI().toString();
-//        System.out.println(uri);
+    public String helloFive(HttpServletRequest request){
+        String uri = request.getRequestURI().toString();
+        String url = request.getRequestURL().toString();
+        System.out.println(uri);
+        System.out.println(url);
         System.out.println("版本5");
         return  "版本5";
+    }
+
+    @GetMapping("/hello")
+    @ApiOperation(value = "版本7")
+    @ResponseBody
+    @ApiVersion(7)
+    public String helloSeven(HttpServletRequest request){
+        String uri = request.getRequestURI().toString();
+        String url = request.getRequestURL().toString();
+        System.out.println(uri);
+        System.out.println(url);
+        System.out.println("版本7");
+        return  "版本7";
     }
 
 
