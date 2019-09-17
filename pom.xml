@@ -36,7 +36,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.12</version>
+            <version>6.0.5</version>
         </dependency>
         <!--引入mybatis-->
         <!--<dependency>-->
@@ -85,11 +85,11 @@
             <version>2.7.0</version>
         </dependency>
         <!--引入druid数据连接池-->
-        <!--<dependency>-->
-            <!--<groupId>com.alibaba</groupId>-->
-            <!--<artifactId>druid</artifactId>-->
-            <!--<version>1.1.10</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>1.1.10</version>
+        </dependency>
         <!--自启动Druid管理后台-->
         <dependency>
             <groupId>com.alibaba</groupId>
