@@ -1,6 +1,7 @@
 package com.example.hello;
 
 
+import com.alibaba.druid.filter.config.ConfigTools;
 import org.jasypt.encryption.StringEncryptor;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,5 +24,15 @@ public class JasyptTest {
         String result = stringEncryptor.encrypt("123456");
         System.out.println(result);
         System.out.println("11111");
+    }
+
+    @Test
+    public void encryptPwdDruid() throws Exception{
+        try {
+            String[] password = new String[]{"123456"};
+            ConfigTools.main(password);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
