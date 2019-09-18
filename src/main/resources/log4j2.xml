@@ -1,105 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="WARN" monitorInterval="30">
-    <Properties>
-        <Property name="patternLayout">[%d{yyyy-MM-dd'T'HH:mm:ss,SSSXXX}] %-5p [%t] %c{2} - %m%n</Property>
-        <!--<Property name="logdir">${sys:catalina.home}</Property>-->
-        <!--<Property name="logdir">/data/logs</Property>-->
-        <Property name="logdir">D:/MyDemo3/helloLogs</Property>
-    </Properties>
+<Configuration status="WARN" monitorInterval="1800">
+    <!--定义日志储存文件目录 -->
+    <properties>
+        <property name="LOG_HOME">logs</property>
+        <property name="FILE_NAME">demo</property>
+    </properties>
+
     <Appenders>
-        <Console name="CONSOLE" target="SYSTEM_OUT">
-            <PatternLayout pattern="${patternLayout}"/>
+        <!--控制台输出所有日志 -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
         </Console>
-        <Async name="ASYNC">
-            <AppenderRef ref="CONSOLE"/>
-        </Async>
 
-        <!--<RollingFile name="DebugLogger" fileName="${logdir}/logs/debug/log.log"
-                     filePattern="${logdir}/logs/debug/$${date:yyyy-MM}/info-%d{yyyy-MM-dd}-log-%i.log" append="true">-->
-
-        <RollingFile name="DebugLogger" fileName="${logdir}/logs/debug/log.log"
-                     filePattern="${logdir}/logs/debug/log-%i.log" append="true">
-            <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY"/>
-            <PatternLayout pattern="${patternLayout}"/>
-            <!--<SizeBasedTriggeringPolicy size="1MB"/>-->
-            <DefaultRolloverStrategy max="10"/>
+        <!--Info debug 级别日志输出 -->
+        <RollingRandomAccessFile name="InfoFile" fileName="${LOG_HOME}/debug/${FILE_NAME}-info.log"
+                                 filePattern="${LOG_HOME}/debug/${FILE_NAME}-info-%d{yyyy-MM-dd}-%i.log">
+            <Filters>
+                <ThresholdFilter level="warn" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <PatternLayout pattern="%date{yyyy-MM-dd HH:mm:ss.SSS} %level [%thread][%file:%line] - %msg%n"/>
             <Policies>
-                <!--根据时间来滚动-->
-                <!--<TimeBasedTriggeringPolicy modulate="true" interval="1"/>-->
-
-                <!--根据文件大小来滚动-->
-                <SizeBasedTriggeringPolicy size="20 MB"/>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="30 MB"/>
             </Policies>
-        </RollingFile>
+            <DefaultRolloverStrategy max="20"/>
+        </RollingRandomAccessFile>
 
-        <RollingFile name="InfoLogger" fileName="${logdir}/logs/info/log.log"
-                     filePattern="${logdir}/logs/info/log-%i.log" append="true">
-            <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
-            <PatternLayout pattern="${patternLayout}"/>
-            <!--<SizeBasedTriggeringPolicy size="1MB"/>-->
-            <DefaultRolloverStrategy max="10"/>
+        <!--WARN Error级别日志输出 -->
+        <RollingRandomAccessFile name="ErrorFile" fileName="${LOG_HOME}/error/${FILE_NAME}-error.log"
+                                 filePattern="${LOG_HOME}/error/${FILE_NAME}-error-%d{yyyy-MM-dd}-%i.log">
+            <Filters>
+                <ThresholdFilter level="warn" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <PatternLayout pattern="%date{yyyy-MM-dd HH:mm:ss.SSS} %level [%thread][%file:%line] - %msg%n"/>
             <Policies>
-                <!--根据时间来滚动-->
-                <!--<TimeBasedTriggeringPolicy modulate="true" interval="1"/>-->
-
-                <!--根据文件大小来滚动-->
-                <SizeBasedTriggeringPolicy size="20 MB"/>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="30 MB"/>
             </Policies>
-        </RollingFile>
+            <DefaultRolloverStrategy max="20"/>
+        </RollingRandomAccessFile>
 
-        <RollingFile name="WarnLogger" fileName="${logdir}/logs/warn/log.log"
-                     filePattern="${logdir}/logs/warn/log-%i.log" append="true">
-            <ThresholdFilter level="warn" onMatch="ACCEPT" onMismatch="DENY"/>
-            <PatternLayout pattern="${patternLayout}"/>
-            <!--<SizeBasedTriggeringPolicy size="1MB"/>-->
-            <DefaultRolloverStrategy max="10"/>
-            <Policies>
-                <!--根据时间来滚动-->
-                <!--<TimeBasedTriggeringPolicy modulate="true" interval="1"/>-->
-
-                <!--根据文件大小来滚动-->
-                <SizeBasedTriggeringPolicy size="20 MB"/>
-            </Policies>
-        </RollingFile>
-
-        <RollingFile name="ErrorLogger" fileName="${logdir}/logs/error/log.log"
-                     filePattern="${logdir}/logs/error/log-%i.log" append="true">
-            <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
-            <PatternLayout pattern="${patternLayout}"/>
-            <!--<SizeBasedTriggeringPolicy size="1MB"/>-->
-            <DefaultRolloverStrategy max="10"/>
-            <Policies>
-                <!--根据时间来滚动-->
-                <!--<TimeBasedTriggeringPolicy modulate="true" interval="1"/>-->
-
-                <!--根据文件大小来滚动-->
-                <SizeBasedTriggeringPolicy size="20 MB"/>
-            </Policies>
-        </RollingFile>
         <!--druid的日志记录追加器-->
-        <RollingFile name="druidSqlRollingFile" fileName="${logdir}/logs/druid/druid-sql.log"
-                     filePattern="${logdir}/logs/$${date:yyyy-MM}/api-%d{yyyy-MM-dd}-%i.log.gz">
-            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss}] %-5level %L %M - %msg%xEx%n"/>
+        <RollingFile name="druidSqlRollingFile" fileName="${LOG_HOME}/druid/${FILE_NAME}-druid-sql.log"
+                    filePattern="${LOG_HOME}/druid/${FILE_NAME}-druid-sql-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout pattern="%date{yyyy-MM-dd HH:mm:ss.SSS} %level [%thread][%file:%line] - %msg%n"/>
             <Policies>
-                <SizeBasedTriggeringPolicy size="500 MB"/>
+                <SizeBasedTriggeringPolicy size="30 MB"/>
                 <TimeBasedTriggeringPolicy/>
             </Policies>
         </RollingFile>
     </Appenders>
-    <loggers>
-        <root level="info">
-            <AppenderRef ref="ASYNC"/>
-            <appender-ref ref="DebugLogger"/>
-            <appender-ref ref="InfoLogger"/>
-            <appender-ref ref="WarnLogger"/>
-            <appender-ref ref="ErrorLogger"/>
-        </root>
+
+    <Loggers>
+        <!-- 打印mybatis的SQL语句 -->
+        <!--<logger name="com.kaili.demo.sys.mapper" level="debug" additivity="false">-->
+            <!--<AppenderRef ref="Console"/>-->
+        <!--</logger>-->
+
+        <!-- 写普通日志 -->
+        <Root level="INFO">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="InfoFile"/>
+            <AppenderRef ref="ErrorFile"/>
+        </Root>
 
         <!--记录druid-sql的记录-->
         <logger name="druid.sql.Statement" level="debug" additivity="false">
             <appender-ref ref="druidSqlRollingFile"/>
         </logger>
+
         <!--log4j2 自带过滤日志-->
         <Logger name="org.apache.coyote.http11.Http11NioProtocol" level="warn" />
-    </loggers>
+    </Loggers>
 </Configuration>
