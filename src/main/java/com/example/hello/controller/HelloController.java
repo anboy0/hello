@@ -5,6 +5,8 @@ import com.example.hello.pojo.entity.User;
 import com.example.hello.version.ApiVersion;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +20,8 @@ import java.util.List;
 @Api(description = "用户接口")
 @RequestMapping("/{version}")
 public class HelloController {
+
+    private static final Logger logger = LoggerFactory.getLogger(HelloController.class);
 
     @Autowired
     private UserMapper userMapper;
@@ -54,6 +58,7 @@ public class HelloController {
     @GetMapping("test")
     @ApiOperation(value = "查询所有User")
     public List<User> queryUser(){
+        logger.info("log4j2打印日志：查询所有用户");
         List<User> userList = userMapper.selectList(null);
         userList.forEach(System.out::println);
         return userList;
