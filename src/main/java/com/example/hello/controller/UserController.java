@@ -32,7 +32,7 @@ public class UserController {
     }
 
     @PostMapping("/user")
-    @ApiOperation(value = "查询所有User")
+    @ApiOperation(value = "保存User")
     public void saveUser(@RequestBody mycollection mycollection){
         logger.info("log4j2打印日志：保存mongodb用户");
         userMongoService.savemyCollection(mycollection);
