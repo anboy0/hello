@@ -5,6 +5,7 @@ package com.example.hello.aop.log.enums;
  * 功能名称枚举类
  */
 public enum FunctionName {
+
     userManage("userManage","用户管理");
 
     String code;
