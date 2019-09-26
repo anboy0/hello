@@ -1,6 +1,8 @@
-package com.example.hello.aop.mybatis;
+package com.example.hello.aop;
 
 
+import com.example.hello.aop.log.bean.AbstractLogDict;
+import com.example.hello.aop.log.bean.DefaultLogDict;
 import com.example.hello.aop.log.enums.FunctionName;
 import com.example.hello.aop.log.enums.OperateType;
 
@@ -20,5 +22,6 @@ public @interface OperateLogAspect {
     //业务操作实体的主键
     String key() default "id";
 
-
+    //字段和字段名称的映射 字段和方法名称的映射
+    Class<? extends AbstractLogDict> dict() default DefaultLogDict.class;
 }

@@ -1,6 +1,8 @@
 package com.example.hello.controller;
 
-import com.example.hello.pojo.entity.User;
+import com.example.hello.aop.OperateLogAspect;
+import com.example.hello.aop.log.enums.FunctionName;
+import com.example.hello.aop.log.enums.OperateType;
 import com.example.hello.pojo.entity.mycollection;
 import com.example.hello.service.UserMongoService;
 import com.example.hello.version.ApiVersion;
@@ -33,6 +35,7 @@ public class UserController {
 
     @PostMapping("/user")
     @ApiOperation(value = "保存User")
+    @OperateLogAspect(functionName = FunctionName.userManage,operateType = OperateType.ADD,key = "name")
     public void saveUser(@RequestBody mycollection mycollection){
         logger.info("log4j2打印日志：保存mongodb用户");
         userMongoService.savemyCollection(mycollection);
