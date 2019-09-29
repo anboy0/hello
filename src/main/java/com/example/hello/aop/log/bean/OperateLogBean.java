@@ -30,6 +30,8 @@ public class OperateLogBean {
     private String logType;
     //日志明细
     private String msg;
+    //修改内容
+    private String compareValue;
     //描述
     private String describe;
     //开始时间

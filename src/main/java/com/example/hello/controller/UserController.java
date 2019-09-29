@@ -11,6 +11,10 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -24,6 +28,8 @@ public class UserController {
 
     @Autowired
     private UserMongoService userMongoService;
+    @Autowired
+    private MongoTemplate mongoTemplate;
 
     @GetMapping("/user")
     @ApiOperation(value = "查询所有User")
@@ -39,5 +45,17 @@ public class UserController {
     public void saveUser(@RequestBody mycollection mycollection){
         logger.info("log4j2打印日志：保存mongodb用户");
         userMongoService.savemyCollection(mycollection);
+    }
+
+    @PutMapping("/user")
+    @ApiOperation(value = "修改User")
+    @OperateLogAspect(functionName = FunctionName.userManage,operateType = OperateType.UPDATE,key = "age")
+    public void updateUser(@RequestBody mycollection mycollection){
+        logger.info("log4j2打印日志：修改mongodb用户");
+        Query query = new Query(new Criteria("name").is(mycollection.getName()));
+        Update update = new Update();
+        update.set("age",mycollection.getAge());
+        update.set("email",mycollection.getEmail());
+        mongoTemplate.updateFirst(query,update,mycollection.class);
     }
 }

@@ -189,6 +189,7 @@ public class OperateLogAop {
             list.add(param);
         }
         logBean.setMsg(JSONObject.toJSONString(list));
+        logBean.setCompareValue(msgJsonObj.toString());
         logAsyncTask.saveLog(logBean,"t_operate_log");
 
     }
