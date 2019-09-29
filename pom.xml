@@ -130,6 +130,17 @@
             <artifactId>fastjson</artifactId>
             <version>1.2.31</version>
         </dependency>
+        <!--引入redis -->
+        <!--当springBoot的版本为1.4.7 以上的时候，spring-boot-starter-redis 就空了。要想引入redis就只能选择有data的-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <!--利用redis存放session-->
+        <dependency>
+            <groupId>org.springframework.session</groupId>
+            <artifactId>spring-session-data-redis</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

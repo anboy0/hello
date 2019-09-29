@@ -38,7 +38,7 @@ public class ApiVersionCondition implements RequestCondition<ApiVersionCondition
                 return this;
             }
         }
-        return null;
+        return new ApiVersionCondition(1);
     }
 
     @Override

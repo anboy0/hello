@@ -16,15 +16,15 @@ public class LogObjectHolder implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Object getObject() {
+    private Object object = null;
+
+    public Object get() {
         return object;
     }
 
-    public void setObject(Object object) {
+    public void set(Object object) {
         this.object = object;
     }
-
-    private Object object = null;
 
     public static LogObjectHolder me(){
         LogObjectHolder bean = SpringContextHolder.getBean(LogObjectHolder.class);

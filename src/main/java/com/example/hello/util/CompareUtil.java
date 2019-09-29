@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.example.hello.aop.log.bean.AbstractLogDict;
 import com.example.hello.aop.log.factory.ConstantWarpperFactory;
+import io.swagger.annotations.ApiModelProperty;
+import org.apache.commons.lang3.StringUtils;
 
 
 import java.beans.PropertyDescriptor;
@@ -93,7 +95,7 @@ public class CompareUtil {
     public static JSONObject parseKey(AbstractLogDict logDict, String key, Map<String, String> newDataMap) {
         JSONObject jsonObj = new JSONObject();
         String value = getKey(logDict, key, newDataMap);
-        jsonObj.put("key", logDict.getFieldName(key) + "=" + value);
+        jsonObj.put("key", getFieldName(logDict,key) + "=" + value);
         return jsonObj;
     }
 
@@ -113,6 +115,28 @@ public class CompareUtil {
         }
 
         return String.valueOf(obj);
+    }
+
+    public static String getFieldName(Object obj,String key){
+        Field f = null;
+        try {
+            f = obj.getClass().getDeclaredField(key);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        if(null == f){
+            return "";
+        }
+        ApiModelProperty amp =  f.getAnnotation(ApiModelProperty.class);
+        String value = amp.value();
+        if(StringUtils.isNotEmpty(value)){
+            int index = value.indexOf(",");
+            if(index > 0){
+                value = value.substring(0,index);
+            }
+        }
+        return  value;
+
     }
 
     /**

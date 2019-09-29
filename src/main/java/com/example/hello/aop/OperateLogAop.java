@@ -12,6 +12,7 @@ import com.example.hello.util.ReflectUtil;
 import io.swagger.annotations.ApiModelProperty;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
+import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
@@ -47,6 +48,13 @@ public class OperateLogAop {
 
     @Autowired
     private MessageSource messageSource;
+
+    //拦截方法queryById 保存查询结果 等修改时记录日志用到
+    @AfterReturning(returning = "result",pointcut = "execution(* com.example.hello.controller.*.queryById(..))")
+    public void afterReturning(Object result) throws Throwable{
+        LogObjectHolder.me().set(result);
+    }
+
 
     //controller层切点
     @Pointcut(value = "@annotation(com.example.hello.aop.OperateLogAspect)")
@@ -148,7 +156,7 @@ public class OperateLogAop {
         JSONObject msgJsonObj = null;
         AbstractLogDict logDict = (AbstractLogDict)dictClass.newInstance();
         if(OperateType.UPDATE.equals(operateType)){
-            Object obj1 =  LogObjectHolder.me().getObject();
+            Object obj1 =  LogObjectHolder.me().get();
             if(obj1 != null){
                 msgJsonObj = CompareUtil.compareObj(dictClass,key,obj1,obj2);
             } else {

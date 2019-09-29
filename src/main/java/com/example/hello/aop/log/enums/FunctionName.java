@@ -6,7 +6,8 @@ package com.example.hello.aop.log.enums;
  */
 public enum FunctionName {
 
-    userManage("userManage","用户管理");
+    userManage("userManage","用户管理"),
+    studentManage("studentManage","学生管理");
 
     String code;
     String message;
