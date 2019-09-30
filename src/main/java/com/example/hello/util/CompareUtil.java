@@ -95,7 +95,7 @@ public class CompareUtil {
     public static JSONObject parseKey(AbstractLogDict logDict, String key, Map<String, String> newDataMap) {
         JSONObject jsonObj = new JSONObject();
         String value = getKey(logDict, key, newDataMap);
-        jsonObj.put("key", getFieldName(logDict,key) + "=" + value);
+        jsonObj.put("key", logDict.getFieldName(key) + "=" + value);
         return jsonObj;
     }
 
@@ -136,7 +136,6 @@ public class CompareUtil {
             }
         }
         return  value;
-
     }
 
     /**

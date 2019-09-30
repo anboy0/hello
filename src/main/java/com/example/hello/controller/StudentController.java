@@ -6,6 +6,7 @@ import com.example.hello.aop.log.enums.OperateType;
 import com.example.hello.aop.log.service.impl.RedisService;
 import com.example.hello.mapper.StudentMapper;
 import com.example.hello.pojo.entity.Student;
+import com.example.hello.pojo.entity.StudentDict;
 import com.example.hello.version.ApiVersion;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -48,7 +49,7 @@ public class StudentController {
 
     @PutMapping("/student")
     @ApiOperation(value = "修改学生信息")
-    @OperateLogAspect(functionName = FunctionName.studentManage,operateType = OperateType.UPDATE,key = "name")
+    @OperateLogAspect(functionName = FunctionName.studentManage,operateType = OperateType.UPDATE,key = "name",dict = StudentDict.class)
     public Student updateById(@RequestBody Student student){
 
         studentMapper.updateById(student);
