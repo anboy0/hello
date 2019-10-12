@@ -24,6 +24,7 @@ public class Swagger2Config {
                 .paths(PathSelectors.any())
                 .build();
     }
+
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("springboordemo")

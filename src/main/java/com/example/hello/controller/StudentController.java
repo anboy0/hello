@@ -32,29 +32,29 @@ public class StudentController {
 
     @GetMapping("/student")
     @ApiOperation(value = "查询所有学生信息")
-    public List<Student> queryAll(){
+    public List<Student> queryAll() {
 
         List<Student> list = studentMapper.selectList(null);
-        return  list;
+        return list;
     }
 
     @GetMapping("/student/{id}")
     @ApiOperation(value = "根据ID查询学生信息")
-    public Student queryById(@PathVariable Integer id){
+    public Student queryById(@PathVariable Integer id) {
 
         Student student = studentMapper.selectById(id);
-        redisService.set("student",student);
-        return  student;
+        redisService.set("student", student);
+        return student;
     }
 
     @PutMapping("/student")
     @ApiOperation(value = "修改学生信息")
-    @OperateLogAspect(functionName = FunctionName.studentManage,operateType = OperateType.UPDATE,key = "name",dict = StudentDict.class)
-    public Student updateById(@RequestBody Student student){
+    @OperateLogAspect(functionName = FunctionName.studentManage, operateType = OperateType.UPDATE, key = "name", dict = StudentDict.class)
+    public Student updateById(@RequestBody Student student) {
 
         studentMapper.updateById(student);
         student = studentMapper.selectById(student.getId());
-        return  student;
+        return student;
     }
 
 }

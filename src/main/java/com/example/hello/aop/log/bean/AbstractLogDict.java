@@ -9,12 +9,12 @@ import java.util.HashMap;
 public abstract class AbstractLogDict {
 
     //字段和字段名称的映射关系
-    protected HashMap<String,String> filedNameMap = new HashMap<>();
+    protected HashMap<String, String> filedNameMap = new HashMap<>();
 
     //字段和获取字段值的方法的映射
-    protected HashMap<String,String> methodNameMap = new HashMap<>();
+    protected HashMap<String, String> methodNameMap = new HashMap<>();
 
-    public AbstractLogDict(){
+    public AbstractLogDict() {
         initFiledNameMap();
         initMethodNameMap();
     }
@@ -30,15 +30,15 @@ public abstract class AbstractLogDict {
         return this.filedNameMap.get(key);
     }
 
-    public void putFieldName(String key,String value){
-        this.filedNameMap.put(key,value);
+    public void putFieldName(String key, String value) {
+        this.filedNameMap.put(key, value);
     }
 
     public String getMethodName(String key) {
         return this.methodNameMap.get(key);
     }
 
-    public void putMethodName(String key,String value){
-        this.methodNameMap.put(key,value);
+    public void putMethodName(String key, String value) {
+        this.methodNameMap.put(key, value);
     }
 }

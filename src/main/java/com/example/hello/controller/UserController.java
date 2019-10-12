@@ -33,7 +33,7 @@ public class UserController {
 
     @GetMapping("/user")
     @ApiOperation(value = "查询所有User")
-    public mycollection queryUser(@RequestParam String name){
+    public mycollection queryUser(@RequestParam String name) {
         logger.info("log4j2打印日志：查询所有mongodb中用户");
         mycollection mycollection = userMongoService.getUserbyName(name);
         return mycollection;
@@ -41,21 +41,21 @@ public class UserController {
 
     @PostMapping("/user")
     @ApiOperation(value = "保存User")
-    @OperateLogAspect(functionName = FunctionName.userManage,operateType = OperateType.ADD,key = "name")
-    public void saveUser(@RequestBody mycollection mycollection){
+    @OperateLogAspect(functionName = FunctionName.userManage, operateType = OperateType.ADD, key = "name")
+    public void saveUser(@RequestBody mycollection mycollection) {
         logger.info("log4j2打印日志：保存mongodb用户");
         userMongoService.savemyCollection(mycollection);
     }
 
     @PutMapping("/user")
     @ApiOperation(value = "修改User")
-    @OperateLogAspect(functionName = FunctionName.userManage,operateType = OperateType.UPDATE,key = "age")
-    public void updateUser(@RequestBody mycollection mycollection){
+    @OperateLogAspect(functionName = FunctionName.userManage, operateType = OperateType.UPDATE, key = "age")
+    public void updateUser(@RequestBody mycollection mycollection) {
         logger.info("log4j2打印日志：修改mongodb用户");
         Query query = new Query(new Criteria("name").is(mycollection.getName()));
         Update update = new Update();
-        update.set("age",mycollection.getAge());
-        update.set("email",mycollection.getEmail());
-        mongoTemplate.updateFirst(query,update,mycollection.class);
+        update.set("age", mycollection.getAge());
+        update.set("email", mycollection.getEmail());
+        mongoTemplate.updateFirst(query, update, mycollection.class);
     }
 }

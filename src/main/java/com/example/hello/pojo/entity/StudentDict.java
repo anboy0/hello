@@ -6,10 +6,10 @@ public class StudentDict extends AbstractLogDict {
 
     @Override
     protected void initFiledNameMap() {
-        putFieldName("id","主键ID");
-        putFieldName("name","名称");
-        putFieldName("age","年龄");
-        putFieldName("email","邮箱");
+        putFieldName("id", "主键ID");
+        putFieldName("name", "名称");
+        putFieldName("age", "年龄");
+        putFieldName("email", "邮箱");
     }
 
     @Override

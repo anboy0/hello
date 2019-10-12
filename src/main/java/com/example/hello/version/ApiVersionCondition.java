@@ -11,8 +11,8 @@ import java.util.regex.Pattern;
  */
 public class ApiVersionCondition implements RequestCondition<ApiVersionCondition> {
     /**
-    *extract the version part from url. example [v0-9]
-    */
+     * extract the version part from url. example [v0-9]
+     */
     private final static Pattern VERSION_PREFIX_PATTERN = Pattern.compile("v(\\d+)/");
 
     private int apiVersion;
@@ -34,7 +34,7 @@ public class ApiVersionCondition implements RequestCondition<ApiVersionCondition
         if (m.find()) {
             Integer version = Integer.valueOf(m.group(1));
             // when applying version number bigger than configuration, then it will take
-            if (version >= this.apiVersion){
+            if (version >= this.apiVersion) {
                 return this;
             }
         }

@@ -50,70 +50,70 @@ public class OperateLogAop {
     private MessageSource messageSource;
 
     //拦截方法queryById 保存查询结果 等修改时记录日志用到
-    @AfterReturning(returning = "result",pointcut = "execution(* com.example.hello.controller.*.queryById(..))")
-    public void afterReturning(Object result) throws Throwable{
+    @AfterReturning(returning = "result", pointcut = "execution(* com.example.hello.controller.*.queryById(..))")
+    public void afterReturning(Object result) throws Throwable {
         LogObjectHolder.me().set(result);
     }
 
 
     //controller层切点
     @Pointcut(value = "@annotation(com.example.hello.aop.OperateLogAspect)")
-    public void controllerAspect(){
+    public void controllerAspect() {
 
     }
 
     //环绕通知 拦截controller层 记录用户的操作日志
     @Around("controllerAspect()")
-    public Object around(ProceedingJoinPoint point) throws Throwable{
+    public Object around(ProceedingJoinPoint point) throws Throwable {
         Object result = point.proceed();
 
         try {
             handle(point);
-        } catch (Exception e){
-            logger.error("AOP写日志报错",e);
+        } catch (Exception e) {
+            logger.error("AOP写日志报错", e);
         }
         return result;
     }
 
     //记录操作日志的业务处理
-    private void handle(ProceedingJoinPoint point) throws Exception{
+    private void handle(ProceedingJoinPoint point) throws Exception {
         //aop拦截记录操作日志
         Signature sig = point.getSignature();
         MethodSignature msig = null;
-        if(!(sig instanceof MethodSignature)){
+        if (!(sig instanceof MethodSignature)) {
             throw new IllegalArgumentException("该注解只能用于方法");
         }
-        msig = (MethodSignature)sig;
+        msig = (MethodSignature) sig;
         Object target = point.getTarget();
-        Method currentMethod = target.getClass().getMethod(msig.getName(),msig.getParameterTypes());
+        Method currentMethod = target.getClass().getMethod(msig.getName(), msig.getParameterTypes());
 
         //获取拦截方法的参数
-        Object[] params =  point.getArgs();
-        String[] paramNames = ((CodeSignature)point.getSignature()).getParameterNames();
-        Map<String,String> obj2 = new HashMap<>();
-        for(int i=0;i<paramNames.length;i++){
+        Object[] params = point.getArgs();
+        String[] paramNames = ((CodeSignature) point.getSignature()).getParameterNames();
+        Map<String, String> obj2 = new HashMap<>();
+        for (int i = 0; i < paramNames.length; i++) {
             Object param = params[i];
             String paramsStr = null;
-            if(param.getClass().isArray()){
-                Object[] objs = (Object[])param;
+            if (param.getClass().isArray()) {
+                Object[] objs = (Object[]) param;
                 StringBuilder builder = new StringBuilder();
                 int n = 0;
-                for(Object record: objs){
+                for (Object record : objs) {
                     n++;
                     builder.append(String.valueOf(record));
-                    if(n<objs.length){
+                    if (n < objs.length) {
                         builder.append(",");
                     }
                 }
                 paramsStr = builder.toString();
-            } else if(param instanceof ArrayList){
-                ArrayList<Object> list = (ArrayList)param;
+            } else if (param instanceof ArrayList) {
+                ArrayList<Object> list = (ArrayList) param;
                 StringBuilder builder = new StringBuilder();
                 int n = 0;
-                for(Object record: list){
+                for (Object record : list) {
                     n++;
                     builder.append(String.valueOf(record));
-                    if(n<list.size()){
+                    if (n < list.size()) {
                         builder.append(",");
                     }
                 }
@@ -121,27 +121,27 @@ public class OperateLogAop {
             } else {
                 paramsStr = String.valueOf(params[i]);
             }
-            obj2.put(paramNames[i],paramsStr);
+            obj2.put(paramNames[i], paramsStr);
         }
 
         OperateLogAspect annotation = currentMethod.getAnnotation(OperateLogAspect.class);
         String keyField = "id";
-        if(params != null && params.length > 0){
+        if (params != null && params.length > 0) {
             Object object = params[0];
             Class<?> aClass = null;
-            if(object.getClass().isArray()){
-                Object[] array = (Object[])object;
-            } else if (object instanceof ArrayList){
-                ArrayList<Object> list = (ArrayList<Object>)object;
+            if (object.getClass().isArray()) {
+                Object[] array = (Object[]) object;
+            } else if (object instanceof ArrayList) {
+                ArrayList<Object> list = (ArrayList<Object>) object;
                 aClass = list.get(0).getClass();
             } else {
                 aClass = object.getClass();
             }
-            Field[] fields =  aClass.getDeclaredFields();
-            for (Field field: fields) {
-                if(field.getName().equals(annotation.key())){
+            Field[] fields = aClass.getDeclaredFields();
+            for (Field field : fields) {
+                if (field.getName().equals(annotation.key())) {
                     ApiModelProperty apiModelProperty = field.getAnnotation(ApiModelProperty.class);
-                    keyField = apiModelProperty!=null?apiModelProperty.value():"id";
+                    keyField = apiModelProperty != null ? apiModelProperty.value() : "id";
                 }
             }
             obj2.putAll(ReflectUtil.objectToMap(params[0]));
@@ -154,21 +154,21 @@ public class OperateLogAop {
 
         //如果涉及到修改 比对变化
         JSONObject msgJsonObj = null;
-        AbstractLogDict logDict = (AbstractLogDict)dictClass.newInstance();
-        if(OperateType.UPDATE.equals(operateType)){
-            Object obj1 =  LogObjectHolder.me().get();
-            if(obj1 != null){
-                msgJsonObj = CompareUtil.compareObj(dictClass,key,obj1,obj2);
+        AbstractLogDict logDict = (AbstractLogDict) dictClass.newInstance();
+        if (OperateType.UPDATE.equals(operateType)) {
+            Object obj1 = LogObjectHolder.me().get();
+            if (obj1 != null) {
+                msgJsonObj = CompareUtil.compareObj(dictClass, key, obj1, obj2);
             } else {
-                msgJsonObj = CompareUtil.parseKey(logDict,key,obj2);
+                msgJsonObj = CompareUtil.parseKey(logDict, key, obj2);
             }
         } else {
-            msgJsonObj = CompareUtil.parseKey(logDict,key,obj2);
+            msgJsonObj = CompareUtil.parseKey(logDict, key, obj2);
         }
 
         String username = "张三";
         String operatorType = operateType.getMessage();
-        String functionNameType= functionName.getMessage();
+        String functionNameType = functionName.getMessage();
 
         OperateLogBean logBean = new OperateLogBean();
         logBean.setFunctionName(functionNameType);
@@ -178,27 +178,27 @@ public class OperateLogAop {
         StringBuilder builder = new StringBuilder();
         builder.append(logBean.getCreateByName())
                 .append(logBean.getOperateType())
-                .append("["+logBean.getFunctionName()+"]")
-                .append(keyField+":")
-                .append("\'"+obj2.get(key)+"\'"+"的记录");
+                .append("[" + logBean.getFunctionName() + "]")
+                .append(keyField + ":")
+                .append("\'" + obj2.get(key) + "\'" + "的记录");
         logBean.setDescribe(builder.toString());
         //仅仅记录接口参数
         ArrayList<Object> list = new ArrayList<>();
-        for (Object param: params) {
-            if(param instanceof MultipartFile){
+        for (Object param : params) {
+            if (param instanceof MultipartFile) {
                 continue;
-            } else if(param instanceof HttpServletRequest){
+            } else if (param instanceof HttpServletRequest) {
                 continue;
-            } else if(param instanceof HttpServletResponse){
+            } else if (param instanceof HttpServletResponse) {
                 continue;
-            } else if(param instanceof MultipartFile[]){
+            } else if (param instanceof MultipartFile[]) {
                 continue;
             }
             list.add(param);
         }
         logBean.setMsg(JSONObject.toJSONString(list));
         logBean.setCompareValue(msgJsonObj.toString());
-        logAsyncTask.saveLog(logBean,"t_operate_log");
+        logAsyncTask.saveLog(logBean, "t_operate_log");
 
     }
 

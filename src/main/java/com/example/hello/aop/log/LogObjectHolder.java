@@ -26,7 +26,7 @@ public class LogObjectHolder implements Serializable {
         this.object = object;
     }
 
-    public static LogObjectHolder me(){
+    public static LogObjectHolder me() {
         LogObjectHolder bean = SpringContextHolder.getBean(LogObjectHolder.class);
         return bean;
     }

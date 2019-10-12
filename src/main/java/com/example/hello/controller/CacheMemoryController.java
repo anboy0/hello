@@ -23,12 +23,12 @@ public class CacheMemoryController {
 
     @GetMapping("cache/totalMemory")
     @ApiModelProperty("查询redis内存详情")
-    public SysCacheMemoryVO getTotalMemory(){
+    public SysCacheMemoryVO getTotalMemory() {
         Properties prop = redisTemplate.getConnectionFactory().getConnection().info("memory");
         String usedMemoryHuman = prop.get("used_memory_human").toString();
         String usedMemoryPeakHuman = prop.get("used_memory_peak_human").toString();
         String usedMemoryRss = prop.get("used_memory_rss").toString();
         String memFragmentationRatio = prop.get("mem_fragmentation_ratio").toString();
-        return new SysCacheMemoryVO(usedMemoryHuman,usedMemoryPeakHuman,usedMemoryRss,memFragmentationRatio);
+        return new SysCacheMemoryVO(usedMemoryHuman, usedMemoryPeakHuman, usedMemoryRss, memFragmentationRatio);
     }
 }

@@ -22,36 +22,36 @@ public class SpringContextHolder implements ApplicationContextAware {
         SpringContextHolder.applicationContext = applicationContext;
     }
 
-    public static ApplicationContext getApplicationContext(){
+    public static ApplicationContext getApplicationContext() {
         assertApplicationContext();
         return applicationContext;
     }
 
-    public static <T> T getBean(String beanName){
+    public static <T> T getBean(String beanName) {
         assertApplicationContext();
         return (T) applicationContext.getBean(beanName);
     }
 
-    public static <T> T getBean(Class<T> requiredType){
+    public static <T> T getBean(Class<T> requiredType) {
         assertApplicationContext();
         return applicationContext.getBean(requiredType);
     }
 
-    public static Map<String,Object> getBeans(Class type){
+    public static Map<String, Object> getBeans(Class type) {
         return applicationContext.getBeansOfType(type);
     }
 
-    public static List<String> getBeansName(Class type){
-        Map<String,Object> beans =  applicationContext.getBeansOfType(type);
+    public static List<String> getBeansName(Class type) {
+        Map<String, Object> beans = applicationContext.getBeansOfType(type);
         List<String> ret = new ArrayList<>();
-        for (Map.Entry<String,Object> entry: beans.entrySet()) {
+        for (Map.Entry<String, Object> entry : beans.entrySet()) {
             ret.add(entry.getValue().getClass().getName());
         }
         return ret;
     }
 
-    private static void assertApplicationContext(){
-        if(SpringContextHolder.applicationContext == null){
+    private static void assertApplicationContext() {
+        if (SpringContextHolder.applicationContext == null) {
             throw new RuntimeException("applicationContext属性为null,请检查是否注入了SpringContextHolder");
         }
     }

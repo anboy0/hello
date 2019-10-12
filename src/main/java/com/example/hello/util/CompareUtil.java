@@ -117,25 +117,25 @@ public class CompareUtil {
         return String.valueOf(obj);
     }
 
-    public static String getFieldName(Object obj,String key){
+    public static String getFieldName(Object obj, String key) {
         Field f = null;
         try {
             f = obj.getClass().getDeclaredField(key);
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        if(null == f){
+        if (null == f) {
             return "";
         }
-        ApiModelProperty amp =  f.getAnnotation(ApiModelProperty.class);
+        ApiModelProperty amp = f.getAnnotation(ApiModelProperty.class);
         String value = amp.value();
-        if(StringUtils.isNotEmpty(value)){
+        if (StringUtils.isNotEmpty(value)) {
             int index = value.indexOf(",");
-            if(index > 0){
-                value = value.substring(0,index);
+            if (index > 0) {
+                value = value.substring(0, index);
             }
         }
-        return  value;
+        return value;
     }
 
     /**
@@ -154,7 +154,7 @@ public class CompareUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if(null != result){
+        if (null != result) {
             return String.valueOf(result);
         }
 

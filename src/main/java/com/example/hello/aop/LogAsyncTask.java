@@ -16,7 +16,7 @@ public class LogAsyncTask {
     private ILogService logService;
 
     @Async("logExecutor")
-    public void saveLog(OperateLogBean logBean, String collectionName){
-        logService.saveLog(logBean,collectionName);
+    public void saveLog(OperateLogBean logBean, String collectionName) {
+        logService.saveLog(logBean, collectionName);
     }
 }

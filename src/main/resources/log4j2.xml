@@ -43,7 +43,7 @@
 
         <!--druid的日志记录追加器-->
         <RollingFile name="druidSqlRollingFile" fileName="${LOG_HOME}/druid/${FILE_NAME}-druid-sql.log"
-                    filePattern="${LOG_HOME}/druid/${FILE_NAME}-druid-sql-%d{yyyy-MM-dd}-%i.log">
+                     filePattern="${LOG_HOME}/druid/${FILE_NAME}-druid-sql-%d{yyyy-MM-dd}-%i.log">
             <PatternLayout pattern="%date{yyyy-MM-dd HH:mm:ss.SSS} %level [%thread][%file:%line] - %msg%n"/>
             <Policies>
                 <SizeBasedTriggeringPolicy size="30 MB"/>
@@ -55,7 +55,7 @@
     <Loggers>
         <!-- 打印mybatis的SQL语句 -->
         <!--<logger name="com.kaili.demo.sys.mapper" level="debug" additivity="false">-->
-            <!--<AppenderRef ref="Console"/>-->
+        <!--<AppenderRef ref="Console"/>-->
         <!--</logger>-->
 
         <!-- 写普通日志 -->
@@ -71,6 +71,6 @@
         </logger>
 
         <!--log4j2 自带过滤日志-->
-        <Logger name="org.apache.coyote.http11.Http11NioProtocol" level="warn" />
+        <Logger name="org.apache.coyote.http11.Http11NioProtocol" level="warn"/>
     </Loggers>
 </Configuration>

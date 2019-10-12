@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.Mapping;
 /*
  * @Desc: 版本选择AOP
  */
-@Target({ ElementType.METHOD, ElementType.TYPE })
+@Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Mapping

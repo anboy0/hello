@@ -19,7 +19,7 @@ public class JasyptTest {
     private StringEncryptor stringEncryptor;
 
     @Test
-    public void encryptPwd() throws Exception{
+    public void encryptPwd() throws Exception {
         //加密数据库真实密码123456
         String result = stringEncryptor.encrypt("123456");
         System.out.println(result);
@@ -27,7 +27,7 @@ public class JasyptTest {
     }
 
     @Test
-    public void encryptPwdDruid() throws Exception{
+    public void encryptPwdDruid() throws Exception {
         try {
             String[] password = new String[]{"123456"};
             ConfigTools.main(password);

@@ -1,8 +1,6 @@
 package com.example.hello.util;
 
 
-
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
@@ -20,12 +18,12 @@ import java.util.Date;
  * @version 1.0 2018年1月10日 上午9:57:38
  */
 public class DateUtil {
-	private static final String DATE_PATTERN = "yyyy-MM-dd";
-	
-	private static final String DATETIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
+    private static final String DATE_PATTERN = "yyyy-MM-dd";
 
-	private static final Long ONE_DAY_TIME=86400000L;
-	
+    private static final String DATETIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
+
+    private static final Long ONE_DAY_TIME = 86400000L;
+
     public static String getNowDate() {
         return formatDate(new Date(), "yyyy-MM-dd");
     }
@@ -47,26 +45,28 @@ public class DateUtil {
         }
         return formatDate;
     }
-    
-	public static Date getStrToDateTime(String str) throws ParseException{
-		return DateUtils.parseDate(str, new String[]{DATETIME_PATTERN});
-	}
-	public static Date getStrToDate(String str) throws ParseException{
-		return DateUtils.parseDate(str, new String[]{DATE_PATTERN});
-	}
 
-    public static String getDateToStr(Date date) throws ParseException{
+    public static Date getStrToDateTime(String str) throws ParseException {
+        return DateUtils.parseDate(str, new String[]{DATETIME_PATTERN});
+    }
+
+    public static Date getStrToDate(String str) throws ParseException {
+        return DateUtils.parseDate(str, new String[]{DATE_PATTERN});
+    }
+
+    public static String getDateToStr(Date date) throws ParseException {
         return formatDate(date, "yyyy-MM-dd HH:mm:ss");
     }
 
     //获取指定日期前一天的时间
-    public static Date getYesterDay(Date date){
-        long l =date.getTime() -ONE_DAY_TIME ;
+    public static Date getYesterDay(Date date) {
+        long l = date.getTime() - ONE_DAY_TIME;
         return new Date(l);
     }
+
     //获取指定日期前一天的时间
-    public static Date getTomorrow(Date date){
-        long l =date.getTime() + ONE_DAY_TIME;
+    public static Date getTomorrow(Date date) {
+        long l = date.getTime() + ONE_DAY_TIME;
         return new Date(l);
     }
 
@@ -74,8 +74,8 @@ public class DateUtil {
     public static Date getYesterDayLastTime(Date date) throws ParseException {
         Calendar sc = Calendar.getInstance();
         sc.setTime(date);
-        sc.add(sc.DATE,-1);
-        String src_time = sc.get(sc.YEAR) + "-" + (sc.get(sc.MONTH )+1) + "-" + sc.get(sc.DATE) + " 23:59:59";
+        sc.add(sc.DATE, -1);
+        String src_time = sc.get(sc.YEAR) + "-" + (sc.get(sc.MONTH) + 1) + "-" + sc.get(sc.DATE) + " 23:59:59";
         return getStrToDateTime(src_time);
     }
 }

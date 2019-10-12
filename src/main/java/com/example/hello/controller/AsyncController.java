@@ -30,14 +30,14 @@ public class AsyncController {
     private static final Logger logger = LoggerFactory.getLogger(AsyncController.class);
 
     @GetMapping("/async/{id}")
-    public Student queryStudentById(@PathVariable("id") Long id) throws InterruptedException,ExecutionException {
-        logger.info("AsyncController======>"+Thread.currentThread().getName());
+    public Student queryStudentById(@PathVariable("id") Long id) throws InterruptedException, ExecutionException {
+        logger.info("AsyncController======>" + Thread.currentThread().getName());
         Student student = studentService.queryStudentById(id);
-        logger.info("AsyncController==student.name====>"+ (student != null ?student.getName():null)+"=====>"+Thread.currentThread().getName());
+        logger.info("AsyncController==student.name====>" + (student != null ? student.getName() : null) + "=====>" + Thread.currentThread().getName());
         logger.info("*******************************************");
         Future<Student> future = studentService.queryStudentById2(id);
         String name = future.get().getName();
-        logger.info("AsyncController==future.name====>"+name+"=====>"+Thread.currentThread().getName());
+        logger.info("AsyncController==future.name====>" + name + "=====>" + Thread.currentThread().getName());
         return student;
     }
 

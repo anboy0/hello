@@ -13,20 +13,20 @@ import org.springframework.stereotype.Service;
 import java.util.concurrent.Future;
 
 @Service
-public class StudentServiceImpl extends ServiceImpl<StudentMapper,Student> implements StudentService {
+public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> implements StudentService {
 
     private static final Logger logger = LoggerFactory.getLogger(StudentServiceImpl.class);
 
     @Override
     @Async
     public Student queryStudentById(Long id) {
-        logger.info("StudentServiceImpl=====>"+Thread.currentThread().getName());
+        logger.info("StudentServiceImpl=====>" + Thread.currentThread().getName());
         return baseMapper.selectById(id);
     }
 
     @Async
     public Future<Student> queryStudentById2(Long id) {
-        logger.info("StudentServiceImpl==queryStudentById2===>"+Thread.currentThread().getName());
+        logger.info("StudentServiceImpl==queryStudentById2===>" + Thread.currentThread().getName());
         Student student = baseMapper.selectById(id);
         return new AsyncResult<>(student);
     }

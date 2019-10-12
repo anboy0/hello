@@ -18,14 +18,14 @@ import java.util.concurrent.Executor;
 public class TaskPoolConfig implements AsyncConfigurer {
 
     @Bean("logExecutor")
-    public Executor taskExecutor(){
+    public Executor taskExecutor() {
         ThreadPoolTaskScheduler executor = new ThreadPoolTaskScheduler();
         executor.setPoolSize(5);
         executor.setThreadNamePrefix("logExecutor-");
         return executor;
     }
 
-    public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler(){
+    public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
         return new SimpleAsyncUncaughtExceptionHandler();
     }
 

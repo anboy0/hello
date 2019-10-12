@@ -29,6 +29,7 @@ public class RedisConfig extends CachingConfigurerSupport {
 
     /**
      * 生成key的策略
+     *
      * @return
      */
     @Bean

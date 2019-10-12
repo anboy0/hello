@@ -32,7 +32,7 @@ public class CommonUtil {
      */
     public static String getCompanyId() {
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        if(null != requestAttributes){
+        if (null != requestAttributes) {
             return getCompanyId(requestAttributes.getRequest());
         }
 
@@ -66,15 +66,15 @@ public class CommonUtil {
         String language = "zh_CN";
         Locale local = Locale.CHINA;
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        if(null != requestAttributes){
+        if (null != requestAttributes) {
             Object obj = requestAttributes.getRequest().getSession().getAttribute("language");
             if (null != obj) {
                 language = String.valueOf(obj);
             }
         }
 
-        if("en_US".equals(language)){
-            local =Locale.US;
+        if ("en_US".equals(language)) {
+            local = Locale.US;
         }
 
         return local;
@@ -82,12 +82,13 @@ public class CommonUtil {
 
     /**
      * 获取当前语言类型
+     *
      * @return
      */
     public static String getLanguage() {
         String language = "zh_CN";
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        if(null != requestAttributes){
+        if (null != requestAttributes) {
             Object obj = requestAttributes.getRequest().getSession().getAttribute("language");
             if (null != obj) {
                 language = String.valueOf(obj);
@@ -143,13 +144,14 @@ public class CommonUtil {
 
     /**
      * 判断是否包含中文字符
+     *
      * @param str
      * @return
      */
-    public static boolean isContainChinese(String str){
+    public static boolean isContainChinese(String str) {
         Pattern p = Pattern.compile("[\u4e00-\u9fa5]");
         Matcher m = p.matcher(str);
-        if(m.find()){
+        if (m.find()) {
             return true;
         }
 
@@ -158,12 +160,13 @@ public class CommonUtil {
 
     /**
      * 获取key的国际化资源文件内容
+     *
      * @param messageSource
      * @param key
      * @return
      */
-    public static String getMessage(MessageSource messageSource, String key){
-        if(!isContainChinese(key)){
+    public static String getMessage(MessageSource messageSource, String key) {
+        if (!isContainChinese(key)) {
             return messageSource.getMessage(key, null, getLocale());
         }
 
@@ -265,10 +268,11 @@ public class CommonUtil {
 
     /**
      * 将list转换为制定clazz类型list集合
-     * @param list 原始list
+     *
+     * @param list  原始list
      * @param clazz 转后后的List对象类型
      */
-    public static<T> List<T>  toList(List list,Class<T> clazz){
+    public static <T> List<T> toList(List list, Class<T> clazz) {
         JSONArray jsonArray = JSONArray.parseArray(JSON.toJSONString(list));
         return JSONObject.parseArray(jsonArray.toJSONString(), clazz);
     }

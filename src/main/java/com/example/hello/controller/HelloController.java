@@ -32,32 +32,32 @@ public class HelloController {
     @GetMapping("/hello")
     @ApiOperation(value = "版本5")
     @ResponseBody
-    public String helloFive(HttpServletRequest request){
+    public String helloFive(HttpServletRequest request) {
         String uri = request.getRequestURI().toString();
         String url = request.getRequestURL().toString();
         System.out.println(uri);
         System.out.println(url);
         System.out.println("版本5");
-        return  "版本5";
+        return "版本5";
     }
 
     @GetMapping("/hello")
     @ApiOperation(value = "版本7")
     @ResponseBody
     @ApiVersion(7)
-    public String helloSeven(HttpServletRequest request){
+    public String helloSeven(HttpServletRequest request) {
         String uri = request.getRequestURI().toString();
         String url = request.getRequestURL().toString();
         System.out.println(uri);
         System.out.println(url);
         System.out.println("版本7");
-        return  "版本7";
+        return "版本7";
     }
 
 
     @GetMapping("test")
     @ApiOperation(value = "查询所有User")
-    public List<User> queryUser(){
+    public List<User> queryUser() {
         logger.info("log4j2打印日志：查询所有用户");
         List<User> userList = userMapper.selectList(null);
         userList.forEach(System.out::println);

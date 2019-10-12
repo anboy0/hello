@@ -11,7 +11,7 @@ public class LogServiceImpl implements ILogService {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    public void saveLog(OperateLogBean logBean,String collectionName){
-        mongoTemplate.save(logBean,collectionName);
+    public void saveLog(OperateLogBean logBean, String collectionName) {
+        mongoTemplate.save(logBean, collectionName);
     }
 }

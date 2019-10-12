@@ -4,9 +4,9 @@ package com.example.hello.aop.log.enums;
  * 操作类型枚举类
  */
 public enum OperateType {
-    ADD("log.add","新增"),
-    UPDATE("log.update","修改"),
-    DELETE("log.delete","删除");
+    ADD("log.add", "新增"),
+    UPDATE("log.update", "修改"),
+    DELETE("log.delete", "删除");
 
     String code;
     String message;
