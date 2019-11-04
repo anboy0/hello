@@ -29,6 +29,14 @@ public class RSAEncrypt {
         System.out.println(message + "\t加密后的字符串为:" + messageEn);
         String messageDe = decrypt(messageEn,keyMap.get(1));
         System.out.println("还原后的字符串为:" + messageDe);
+
+        System.out.println("********************签名操作**********************");
+        String str = sign(message,getPrivateKey(keyMap.get(1)));
+        System.out.println("签名为:"+str);
+
+        System.out.println("********************验签操作**********************");
+        Boolean flag = verify(messageDe,getPublicKey(keyMap.get(0)),str);
+        System.out.println("验签结果为:"+flag);
     }
 
     /**
@@ -96,6 +104,68 @@ public class RSAEncrypt {
         cipher.init(Cipher.DECRYPT_MODE, priKey);
         String outStr = new String(cipher.doFinal(inputByte));
         return outStr;
+    }
+
+        /**
+        * 签名
+        *
+        * @param data 待签名数据
+        * @param privateKey 私钥
+        * @return 签名
+        */
+    public static String sign(String data, PrivateKey privateKey) throws Exception {
+        byte[] keyBytes = privateKey.getEncoded();
+        PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(keyBytes);
+        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+        PrivateKey key = keyFactory.generatePrivate(keySpec);
+        Signature signature = Signature.getInstance("MD5withRSA");
+        signature.initSign(key);
+        signature.update(data.getBytes());
+        return new String(Base64.encodeBase64(signature.sign()));
+    }
+
+        /**
+        * 验签
+        *
+        * @param srcData 原始字符串
+        * @param publicKey 公钥
+        * @param sign 签名
+        * @return 是否验签通过
+        */
+    public static boolean verify(String srcData, PublicKey publicKey, String sign) throws Exception {
+        byte[] keyBytes = publicKey.getEncoded();
+        X509EncodedKeySpec keySpec = new X509EncodedKeySpec(keyBytes);
+        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+        PublicKey key = keyFactory.generatePublic(keySpec);
+        Signature signature = Signature.getInstance("MD5withRSA");
+        signature.initVerify(key);
+        signature.update(srcData.getBytes());
+        return signature.verify(Base64.decodeBase64(sign.getBytes()));
+    }
+
+    /**
+     37      * 获取私钥
+     38      *
+     39      * @param privateKey 私钥字符串
+     40      * @return
+     41      */
+    public static PrivateKey getPrivateKey(String privateKey) throws Exception {
+        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+        byte[] decodedKey = Base64.decodeBase64(privateKey.getBytes());
+        PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(decodedKey);
+        return keyFactory.generatePrivate(keySpec);
+    }
+     /**
+    * 获取公钥
+    *
+    * @param publicKey 公钥字符串
+    * @return
+    */
+     public static PublicKey getPublicKey(String publicKey) throws Exception {
+        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+        byte[] decodedKey = Base64.decodeBase64(publicKey.getBytes());
+        X509EncodedKeySpec keySpec = new X509EncodedKeySpec(decodedKey);
+        return keyFactory.generatePublic(keySpec);
     }
 
 
