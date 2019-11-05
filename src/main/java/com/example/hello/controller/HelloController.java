@@ -10,8 +10,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
+import java.io.BufferedReader;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -70,5 +72,34 @@ public class HelloController {
         System.out.println(dataSource.getConnection());
         System.out.println(dataSource);
         return "hello spring boot";
+    }
+
+    @PostMapping("/api")
+    @ApiOperation(value = "接口test")
+    @ResponseBody
+    public String test(HttpServletRequest request) {
+        String uri = request.getRequestURI();
+        String url = request.getRequestURL().toString();
+        System.out.println(uri);
+        System.out.println(url);
+
+        //测试能否再次读取request
+//        BufferedReader br = null;
+//        StringBuilder sb = new StringBuilder("");
+//        try {
+//            br = request.getReader();
+//            String str = "";
+//            while((str = br.readLine()) != null){
+//                sb.append(str);
+//            }
+//            br.close();
+//            System.out.println("controller中打印："+sb.toString());
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+
+
+        System.out.println("版本7");
+        return "版本7";
     }
 }
