@@ -1,5 +1,6 @@
 package com.example.hello.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.example.hello.mapper.UserMapper;
 import com.example.hello.pojo.entity.User;
 import com.example.hello.version.ApiVersion;
@@ -16,6 +17,7 @@ import javax.sql.DataSource;
 import java.io.BufferedReader;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 @ApiVersion(5)
 @RestController
@@ -84,20 +86,22 @@ public class HelloController {
         System.out.println(url);
 
         //测试能否再次读取request
-//        BufferedReader br = null;
-//        StringBuilder sb = new StringBuilder("");
-//        try {
-//            br = request.getReader();
-//            String str = "";
-//            while((str = br.readLine()) != null){
-//                sb.append(str);
-//            }
-//            br.close();
-//            System.out.println("controller中打印："+sb.toString());
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
-
+        BufferedReader br = null;
+        StringBuilder sb = new StringBuilder("");
+        try {
+            br = request.getReader();
+            String str = "";
+            while((str = br.readLine()) != null){
+                sb.append(str);
+            }
+            br.close();
+            System.out.println("controller中打印："+sb.toString());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        Map mapTypes = JSONObject.parseObject(sb.toString());
+        String name = String.valueOf(mapTypes.get("name"));
+        System.out.println("controller中获取name："+name);
 
         System.out.println("版本7");
         return "版本7";
