@@ -26,10 +26,8 @@ public class ApiFilter extends GenericFilterBean {
         MultiReadHttpServletRequest requestWrapper = new MultiReadHttpServletRequest(request);
 
         //方法一：字符串读取
-        BufferedReader br = null;
         StringBuilder sb = new StringBuilder("");
-        try {
-            br = requestWrapper.getReader();
+        try( BufferedReader br = requestWrapper.getReader()) {
             String str = "";
             while((str = br.readLine()) != null){
                 sb.append(str);
@@ -37,14 +35,6 @@ public class ApiFilter extends GenericFilterBean {
             br.close();
         } catch (Exception e){
             e.printStackTrace();
-        } finally {
-            if(null != br){
-                try {
-                    br.close();
-                } catch (Exception e){
-                    e.printStackTrace();
-                }
-            }
         }
         System.out.println("字符串的方式读取request的body:"+sb.toString());
         Map mapTypes = JSONObject.parseObject(sb.toString());
