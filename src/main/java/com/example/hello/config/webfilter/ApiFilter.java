@@ -32,7 +32,6 @@ public class ApiFilter extends GenericFilterBean {
             while((str = br.readLine()) != null){
                 sb.append(str);
             }
-            br.close();
         } catch (Exception e){
             e.printStackTrace();
         }

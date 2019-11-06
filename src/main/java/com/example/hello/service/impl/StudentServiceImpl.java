@@ -10,6 +10,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.concurrent.Future;
 
 @Service
@@ -29,6 +30,11 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
         logger.info("StudentServiceImpl==queryStudentById2===>" + Thread.currentThread().getName());
         Student student = baseMapper.selectById(id);
         return new AsyncResult<>(student);
+    }
+
+    @Override
+    public List<Student> queryStudent() {
+        return baseMapper.queryStudent();
     }
 }
 

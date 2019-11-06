@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.hello.mapper.StudentMapper">
+
+    <select id = "queryStudent" resultType="com.example.hello.pojo.entity.Student">
+        select * from student
+    </select>
+</mapper>

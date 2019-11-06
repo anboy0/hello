@@ -7,6 +7,7 @@ import com.example.hello.aop.log.service.impl.RedisService;
 import com.example.hello.mapper.StudentMapper;
 import com.example.hello.pojo.entity.Student;
 import com.example.hello.pojo.entity.StudentDict;
+import com.example.hello.service.StudentService;
 import com.example.hello.version.ApiVersion;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -30,11 +31,22 @@ public class StudentController {
     @Autowired
     private RedisService redisService;
 
+    @Autowired
+    private StudentService studentService;
+
     @GetMapping("/student")
     @ApiOperation(value = "查询所有学生信息")
     public List<Student> queryAll() {
 
         List<Student> list = studentMapper.selectList(null);
+        return list;
+    }
+
+    //测试数据权限过滤
+    @GetMapping("/student/all")
+    @ApiOperation(value = "查询所有学生信息")
+    public List<Student> queryAll2() {
+        List<Student> list = studentService.queryStudent();
         return list;
     }
 
